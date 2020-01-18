@@ -5,6 +5,7 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.Columna;
 import models.Tabla;
@@ -23,51 +24,58 @@ public class Datos extends javax.swing.JFrame {
     DefaultTableModel dtm;
     DefaultTableModel dtm2;
     Inicial i;
+
     public Datos(Inicial i) {
         initComponents();
-        this.i=i;
-        jLabel1.setText(Conexion.basedatos); 
-        
-        dtm=new DefaultTableModel() {
-            boolean[] canEdit = new boolean [] {
+        this.i = i;
+        jLabel1.setText(Conexion.basedatos);
+
+        dtm = new DefaultTableModel() {
+            boolean[] canEdit = new boolean[]{
                 false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         };
-        dtm.setColumnIdentifiers(new String[]{"Tabla","Clase"});
+        dtm.setColumnIdentifiers(new String[]{"Tabla", "Clase"});
         jTable1.setModel(dtm);
-        
-        dtm2 =new  javax.swing.table.DefaultTableModel( ) {
-            boolean[] canEdit = new boolean [] {
+
+        dtm2 = new javax.swing.table.DefaultTableModel() {
+            boolean[] canEdit = new boolean[]{
                 false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         };
-        
-        jTable2.setModel(dtm2); 
-        dtm2.setColumnIdentifiers(new String[]{"Columna","Atributo"});
-        for (Tabla listTabla : Memory.tablas) {
-            dtm.addRow(new String[]{listTabla.getNombre(),listTabla.getNombreAlias()});
-        }
-        
+
+        jTable2.setModel(dtm2);
+        dtm2.setColumnIdentifiers(new String[]{"Columna", "Atributo"});
+
+        llenarTabla1();
     }
-    private void llenarTabla2(){
-        dtm2.setRowCount(0); 
-        int index=jTable1.getSelectedRow();
+
+    private void llenarTabla1() {
+        dtm.setRowCount(0);
+        for (Tabla listTabla : Memory.tablas) {
+            dtm.addRow(new String[]{listTabla.getNombre(), listTabla.getNombreAlias()});
+        }
+    }
+
+    private void llenarTabla2() {
+        dtm2.setRowCount(0);
+        int index = jTable1.getSelectedRow();
         //System.out.println(index);
-        if (index >-1) {
-            for(Columna col :Memory.tablas.get(index).getColumnas()){
+        if (index > -1) {
+            for (Columna col : Memory.tablas.get(index).getColumnas()) {
                 System.out.println(col.toString());
-                dtm2.addRow(new Object[]{col.getField(),col.getFieldAlias()});
+                dtm2.addRow(new Object[]{col.getField(), col.getFieldAlias()});
             }
         }
-        
+
     }
 
     /**
@@ -87,6 +95,7 @@ public class Datos extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,6 +172,13 @@ public class Datos extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -172,7 +188,9 @@ public class Datos extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(59, 59, 59)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -187,10 +205,13 @@ public class Datos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -228,17 +249,31 @@ public class Datos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Guardar modal=new Guardar(this);
+        Guardar modal = new Guardar(this);
         modal.setLocationRelativeTo(null);
         dispose();
-        modal.setVisible(true); 
+        modal.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int[] index=jTable1.getSelectedRows();
+        
+        if (index.length!=0) {
+            for (int j = index.length-1; j >=0; j--) {
+                Memory.tablas.remove(index[j]);
+            }
+            llenarTabla1();
+        }else{
+            JOptionPane.showMessageDialog(this, "seleccione un campo para eliminar");
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
