@@ -177,7 +177,7 @@ public class Inicial extends javax.swing.JFrame {
                 listTabla.setColumnas(dao.getListColumn(listTabla.getNombre()));
             }
             System.out.println(Memory.tablas.size()+"<<<<<<<<<<");
-            Datos datos=new Datos();
+            Datos datos=new Datos(this);
             datos.setLocationRelativeTo(null);
             dispose();
             datos.setVisible(true);

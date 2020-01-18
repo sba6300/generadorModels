@@ -30,6 +30,12 @@ public class Tabla {
         this.nombre = nombre;
     }
 
+    public Tabla(String nombre, String nombreAlias) {
+        this.nombre = nombre;
+        this.nombreAlias = nombreAlias;
+    }
+    
+
     public String getNombre() {
         return nombre;
     }

@@ -18,6 +18,13 @@ public class Columna {
     public Columna() {
     }
 
+    public Columna(String field, String fieldAlias, String type, String key) {
+        this.field = field;
+        this.fieldAlias = fieldAlias;
+        this.type = type;
+        this.key = key;
+    }
+
     public Columna(String field, String type, String key) {
         this.field = field;
         this.type = type;
@@ -54,6 +61,11 @@ public class Columna {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    @Override
+    public String toString() {
+        return "Columna{" + "field=" + field + ", fieldAlias=" + fieldAlias + ", type=" + type + ", key=" + key + '}';
     }
     
 }

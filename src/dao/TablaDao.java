@@ -15,6 +15,7 @@ import models.Columna;
 import models.Tabla;
 import util.Conexion;
 import util.Memory;
+import util.Tools;
 
 
 public class TablaDao {
@@ -28,7 +29,7 @@ public class TablaDao {
             ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) {
-                lis.add(new Columna(rs.getString("Field"), rs.getString("Type"), rs.getString("Key")));
+                lis.add(new Columna(rs.getString("Field"),Tools.formatText(rs.getString("Field")), rs.getString("Type"), rs.getString("Key")));
             }
             rs.close();
             st.close();
@@ -49,7 +50,7 @@ public class TablaDao {
             while (rs.next()) {
                 
                 if (rs.getString(2).equals("BASE TABLE")) {
-                    lis.add(new Tabla(rs.getString(1))); 
+                    lis.add(new Tabla(rs.getString(1),Tools.ucFirst(Tools.formatText(rs.getString(1))))); 
                 }
             }
             rs.close();
