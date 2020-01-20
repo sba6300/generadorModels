@@ -229,9 +229,11 @@ public class Tools {
         for (Columna columna : lista) {
 
             //m+=columna.getField()+" = '$this->"+columna.getFieldAlias(); 
-            gur = "        $this->" + columna.getFieldAlias() + " = $resultado['" + columna.getField() + "'];\n";
+            
             if (columna.getKey().equals("PRI")) {
                 lisPri.add(columna.getField() + " = '$this->" + columna.getFieldAlias() + "'");
+            }else{
+            gur += "        $this->" + columna.getFieldAlias() + " = $resultado['" + columna.getField() + "'];\n";
             }
         }
         int cLP = 0;
@@ -246,7 +248,7 @@ public class Tools {
         }
         m += "\" ;\n        $resultado = $this->c_conectar->get_Row($sql);\n ";
 
-        m += gur + "        }";
+        m += gur + "    }";
 
         return m;
     }
